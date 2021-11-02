@@ -1,22 +1,56 @@
 plugins {
-	id 'org.springframework.boot' version '2.4.12'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.4.12'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java-library'
 }
 
 group = 'hxy.base'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
+description = "Spring Boot 基础骨架项目"
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
 
 repositories {
-	mavenCentral()
+    maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+    mavenCentral()
+    if (version.contains('-')) {
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    if (version.endsWith('-SNAPSHOT')) {
+        maven { url "https://repo.spring.io/snapshot" }
+    }
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 全局排除tomcat，比如换jetty/undertow就可以用这种方式避免tomcat打包进去
+    configurations.all {
+        exclude module: 'spring-boot-starter-tomcat'
+        resolutionStrategy.cacheChangingModulesFor 0, "minutes"
+    }
+
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation 'org.springframework.boot:spring-boot-starter-undertow'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.4.3.4'
+    runtimeOnly 'mysql:mysql-connector-java'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }

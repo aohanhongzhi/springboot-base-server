@@ -1,0 +1,25 @@
+#线上测试配置
+spring:
+  datasource:
+    url: jdbc:mysql://insite-mysql.mysql.database.chinacloudapi.cn:3306/bosch?useUnicode=true&characterEncoding=utf8&autoReconnect=true&&serverTimezone=GMT%2b8
+    username: grow@insite-mysql
+    password: L1fe$mart@20211013
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    platform: mysql
+    #    type:  com.alibaba.druid.pool.DruidDataSource
+    hikari:
+      max-lifetime: 120000 # 池中连接关闭后的最长生命周期 20分钟
+  redis:
+    host: insite-redis.redis.cache.chinacloudapi.cn
+    password: AeDzXhrQ9018bMVBt4N9ti97RX0E7HF2uBUeyGZJjjc=
+    port: 6380
+    ssl: true
+
+mybatis-plus:
+  configuration:
+    #    配置日志
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+
+logging:
+  level:
+    com.inspector.server: debug

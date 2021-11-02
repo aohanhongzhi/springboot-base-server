@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: SpringBoot
+  profiles:
+    active: beta #????
+  thymeleaf:
+    mode: HTML #LEGACYHTML5
+    cache: false
+    prefix: classpath:/templates/ #???? /
+    suffix: .html
+    encoding: UTF-8
+    check-template-location: true
+  servlet:
+    multipart:
+      enabled: false
+  mail:
+    username: aohanhongzhi@qq.com
+    password: cfldkovgpfeccgig
+    default-encoding: UTF-8
+    host: smtp.qq.com
+    from: aohanhongzhi@qq.com
+    to: aohanhongzhi@qq.com
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages
+    cache-duration: -1  # ????
+
+mybatis-plus:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.inspector.server.entity
+  type-enums-package: com.inspector.server.entity.enums
+  global-config:
+    db-config:
+      table-prefix: bbibm_ # ??????
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+logging:
+  level:
+    root: info
