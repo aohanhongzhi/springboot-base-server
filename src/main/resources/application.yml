@@ -2,11 +2,11 @@ spring:
   application:
     name: SpringBoot
   profiles:
-    active: beta #????
+    active: test # unit test
   thymeleaf:
     mode: HTML #LEGACYHTML5
     cache: false
-    prefix: classpath:/templates/ #???? /
+    prefix: classpath:/templates/
     suffix: .html
     encoding: UTF-8
     check-template-location: true
@@ -23,7 +23,7 @@ spring:
   messages:
     encoding: UTF-8
     basename: i18n/messages
-    cache-duration: -1  # ????
+    cache-duration: -1
 
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
@@ -31,7 +31,7 @@ mybatis-plus:
   type-enums-package: com.inspector.server.entity.enums
   global-config:
     db-config:
-      table-prefix: bbibm_ # ??????
+      table-prefix: bbibm_
 server:
   port: 8080
   servlet:

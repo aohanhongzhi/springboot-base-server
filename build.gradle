@@ -6,7 +6,7 @@ plugins {
 
 group = 'hxy.base'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+//sourceCompatibility = '11'
 description = "Spring Boot 基础骨架项目"
 
 configurations {
@@ -42,6 +42,8 @@ dependencies {
 
     implementation 'com.baomidou:mybatis-plus-boot-starter:3.4.3.4'
     runtimeOnly 'mysql:mysql-connector-java'
+
+    implementation 'com.ejlchina:okhttps-jackson:3.3.0'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

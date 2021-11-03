@@ -1,6 +1,6 @@
 /**
  * @program server
- * @description vo
+ * @description vo 返回给前端的对象
  * @author eric
  * @date 2021/11/2
  */
