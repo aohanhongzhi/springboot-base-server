@@ -14,3 +14,7 @@ sa-token| 轻量级 Java 权限认证框架 | https://gitee.com/dromara/sa-token
 Spring-Retry| 重试 | https://github.com/spring-projects/spring-retry
 
 # 配置
+
+技术 | 说明 |
+----|----|
+国际化配置 | 
