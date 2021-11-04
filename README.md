@@ -12,6 +12,7 @@ MyBatis | ORM框架  | [http://www.mybatis.org/mybatis-3/zh/index.html](http://w
 MyBatisPlus |ORM框架扩展 | https://mybatis.plus/
 sa-token| 轻量级 Java 权限认证框架 | https://gitee.com/dromara/sa-token
 Spring-Retry| 重试 | https://github.com/spring-projects/spring-retry
+jib | Java应用打包成Docker镜像 | https://github.com/GoogleContainerTools/jib
 
 # 配置
 
