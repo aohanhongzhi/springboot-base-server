@@ -24,5 +24,5 @@ jib | Java应用打包成Docker镜像 | https://github.com/GoogleContainerTools/
 ## 后台挂着启动运行
 
 ```shell script
-nohup java -jar /home/ubuntu/eric/print/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
+nohup java  -Dfile.encoding=utf-8 -jar /home/ubuntu/eric/print/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
 ```
