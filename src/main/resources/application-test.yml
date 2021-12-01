@@ -23,3 +23,11 @@ mybatis-plus:
 logging:
   level:
     com.inspector.server: debug
+
+info:
+  build:
+    artifact: hxy.base.server
+    name: base-server
+    version: 0.0.11_20200831
+    description: base-server，test环境
+    current: 当前第2001次启动
