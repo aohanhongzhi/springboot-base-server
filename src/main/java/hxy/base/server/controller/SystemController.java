@@ -14,7 +14,7 @@ public class SystemController {
     /**
      * @return
      */
-    @RequestMapping("/system/info")
+    @RequestMapping(path = {"/", "/system/info"})
     public String index() {
         return "SpringBoot基础骨架工程";
     }
