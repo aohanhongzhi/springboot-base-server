@@ -23,8 +23,30 @@ gradle教程 https://hub.fastgit.org/GradleCN/GradleSide
 ----|----|
 国际化配置 |
 
+### 命令打包，跳过TEST
+```shell script
+./gradlew clean bootJar -x test
+```
+```shell
+./gradlew dependencyInsight --dependency mybatis
+```
+> 需要解决多工程的依赖分析
+>
+
+##  杀后台进程
+```shell
+ps -ef|grep 'java'|grep 'server'|grep 'base-server'|grep -v 'grep'|awk '{print $2}'|xargs -tI {} kill -9 {}
+```
+
+
 ## 后台挂着启动运行
 
 ```shell script
 nohup java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -jar /home/ubuntu/eric/print/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
+```
+
+或者`setsid`
+
+```shell script
+setsid java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -jar /home/ubuntu/eric/print/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
 ```
