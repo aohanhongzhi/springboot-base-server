@@ -15,6 +15,8 @@ sa-token| 轻量级 Java 权限认证框架 | https://gitee.com/dromara/sa-token
 Spring-Retry| 重试 | https://github.com/spring-projects/spring-retry
 jib | Java应用打包成Docker镜像 | https://github.com/GoogleContainerTools/jib
 
+gradle教程 https://hub.fastgit.org/GradleCN/GradleSide
+
 # 配置
 
 技术 | 说明 |
