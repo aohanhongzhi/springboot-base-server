@@ -1,5 +1,6 @@
 package hxy.base.server.controller;
 
+import hxy.base.server.entity.BaseResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,8 +15,13 @@ public class SystemController {
     /**
      * @return
      */
-    @RequestMapping(path = {"/", "/system/info"})
+    @RequestMapping(path = {"/",})
     public String index() {
         return "SpringBoot基础骨架工程";
+    }
+
+    @RequestMapping(path = {"/system/info"})
+    public BaseResponse system() {
+        return BaseResponse.success("查询成功", "SpringBoot基础骨架工程");
     }
 }
