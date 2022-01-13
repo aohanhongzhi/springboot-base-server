@@ -8,6 +8,8 @@ import com.ejlchina.okhttps.OkHttps;
 import com.ejlchina.okhttps.jackson.JacksonMsgConvertor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -26,6 +28,7 @@ public class LogbackDingTalkAppender extends UnsynchronizedAppenderBase<ILogging
             .addMsgConvertor(new JacksonMsgConvertor())
             .build();
 
+    @Retryable(value = Exception.class, maxAttempts = 4, backoff = @Backoff(delay = 100, maxDelay = 500))
     @Override
     protected void append(ILoggingEvent eventObject) {
         Level level = eventObject.getLevel();
