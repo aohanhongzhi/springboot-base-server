@@ -6,10 +6,12 @@ import ch.qos.logback.core.UnsynchronizedAppenderBase;
 import com.ejlchina.okhttps.HTTP;
 import com.ejlchina.okhttps.OkHttps;
 import com.ejlchina.okhttps.jackson.JacksonMsgConvertor;
+import hxy.base.server.util.EnvironmentUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.retry.annotation.Backoff;
 import org.springframework.retry.annotation.Retryable;
+import org.springframework.util.StringUtils;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -31,6 +33,11 @@ public class LogbackDingTalkAppender extends UnsynchronizedAppenderBase<ILogging
     @Retryable(value = Exception.class, maxAttempts = 4, backoff = @Backoff(delay = 100, maxDelay = 500))
     @Override
     protected void append(ILoggingEvent eventObject) {
+        String activeProfile = EnvironmentUtil.getActiveProfile();
+        if (StringUtils.hasText(activeProfile) && (activeProfile.contains("dev") || activeProfile.contains("test"))) {
+            log.debug("\n====>当前是本地测试环境，错误信息不通知钉钉");
+            return;
+        }
         Level level = eventObject.getLevel();
         switch (level.toInt()) {
             case Level.ERROR_INT:
@@ -48,7 +55,6 @@ public class LogbackDingTalkAppender extends UnsynchronizedAppenderBase<ILogging
                 break;
             case Level.WARN_INT:
             case Level.INFO_INT:
-                //
 //                log.info("发送日志信息到钉钉" + eventObject);
                 break;
             default:

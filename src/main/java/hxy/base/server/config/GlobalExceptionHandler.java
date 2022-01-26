@@ -2,7 +2,8 @@ package hxy.base.server.config;
 
 import hxy.base.server.entity.BaseResponse;
 import hxy.base.server.entity.exception.BaseException;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,8 +20,10 @@ import javax.validation.ValidationException;
  * @date 2021/11/2
  */
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler implements InitializingBean {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
@@ -41,6 +44,6 @@ public class GlobalExceptionHandler implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("全局异常注入正常");
+        log.info("全局异常注入正常");
     }
 }
