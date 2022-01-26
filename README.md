@@ -10,6 +10,7 @@ Spring Boot | 容器+MVC框架          | [https://spring.io/projects/spring-boo
 Spring Security | 认证和授权框架           | [https://spring.io/projects/spring-security](https://spring.io/projects/spring-security)
 MyBatis | ORM框架             | [http://www.mybatis.org/mybatis-3/zh/index.html](http://www.mybatis.org/mybatis-3/zh/index.html)
 MyBatisPlus | ORM框架扩展           | https://mybatis.plus/
+HikariCP  | 数据库连接池            | https://github.com/brettwooldridge/HikariCP
 bean-searcher | 复杂查询而生            | https://gitee.com/ejlchina-zhxu/bean-searcher
 sa-token| 轻量级 Java 权限认证框架   | https://gitee.com/dromara/sa-token
 Spring-Retry| 重试                | https://github.com/spring-projects/spring-retry
@@ -50,4 +51,16 @@ nohup java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -jar /home/ubuntu/eric/
 
 ```shell script
 setsid java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -jar /home/ubuntu/eric/print/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
+```
+
+# 开发
+
+## 单元测试
+
+所有需要测试的层次，需要按照`增加`，`修改`，`查询`，`删除`顺序来操作。保证每一种操作都能预期断言成立。
+也保证最后数据与测试之前没有区别。每次发布线上新系统的时候，就先经过一遍单元测试。
+
+保证test按照一定顺序执行。JVM的加载顺序也有点乱，所以还是按照方法名来实现。方法名字前加上a，b，c，d。
+```java
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 ```
