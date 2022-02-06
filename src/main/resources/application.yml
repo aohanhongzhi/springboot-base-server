@@ -27,11 +27,20 @@ spring:
 
 mybatis-plus:
   mapper-locations: classpath:mappers/*.xml
+  configuration:
+    #  配置日志
+    #  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    local-cache-scope: statement # 每次执行sql。多个statement可能会在一个session里面。 这个是mybatis的一级缓存控制。
   type-aliases-package: com.inspector.server.entity
   type-enums-package: com.inspector.server.entity.enums
   global-config:
     db-config:
+      logic-delete-field: deleted  #全局逻辑删除字段值 3.3.0开始支持，详情看下面。
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
       table-prefix: bbibm_
+      id-type: auto
 server:
   port: 9090
   servlet:
