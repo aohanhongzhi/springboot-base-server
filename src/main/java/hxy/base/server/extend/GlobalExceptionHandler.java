@@ -1,4 +1,4 @@
-package hxy.base.server.config;
+package hxy.base.server.extend;
 
 import hxy.base.server.entity.BaseResponse;
 import hxy.base.server.entity.exception.BaseException;
@@ -15,7 +15,7 @@ import javax.validation.ValidationException;
 
 /**
  * @author eric
- * @program inspector-server
+ * @program base-server
  * @description
  * @date 2021/11/2
  */

@@ -1,4 +1,4 @@
-package hxy.base.server.config;
+package hxy.base.server.extend;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author eric
- * @program inspector-server
+ * @program base-server
  * @description 错误消息发送到钉钉上
  * @date 2021/10/28
  */

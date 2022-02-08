@@ -52,6 +52,7 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
     runtimeOnly 'mysql:mysql-connector-java'

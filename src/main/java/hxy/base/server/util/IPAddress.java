@@ -1,12 +1,18 @@
 package hxy.base.server.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * 有待验证
  */
 public class IPAddress {
+    private static final Logger log = LoggerFactory.getLogger(IPAddress.class);
+    
     /**
      * 客户端获取 ip
      * 可以适配 nginx 能正确的获取访问的ip地址
@@ -27,11 +33,13 @@ public class IPAddress {
             if (ip.equals("127.0.0.1")) {
                 //根据网卡取本机配置的IP
                 InetAddress inet = null;
+
                 try {
                     inet = InetAddress.getLocalHost();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (UnknownHostException e) {
+                    log.error("{}", e.getMessage(), e);
                 }
+
                 ip = inet.getHostAddress();
             }
         }

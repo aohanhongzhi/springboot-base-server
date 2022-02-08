@@ -22,6 +22,6 @@ public class SystemController {
 
     @RequestMapping(path = {"/system/info"})
     public BaseResponse system() {
-        return BaseResponse.success("查询成功", "SpringBoot基础骨架工程");
+        return BaseResponse.success("SUCCESS", "SpringBoot基础骨架工程");
     }
 }
