@@ -168,7 +168,9 @@ public class ParameterRecord {
         RequestMapping mapping = targetClass.getAnnotation(RequestMapping.class);
         if (mapping != null) {
             String[] value = mapping.value();
-            requestMapping.append(value[0]);
+            if (value.length > 0) {
+                requestMapping.append(value[0]);
+            }
         }
 
         mapping = method.getAnnotation(RequestMapping.class);
@@ -178,7 +180,9 @@ public class ParameterRecord {
                 requestMapping.append(value[0]);
             } else {
                 String[] path = mapping.path();
-                requestMapping.append(path[0]);
+                if (path.length > 0) {
+                    requestMapping.append(path[0]);
+                }
             }
         } else {
             PostMapping postMapping = method.getAnnotation(PostMapping.class);
@@ -188,7 +192,9 @@ public class ParameterRecord {
                     requestMapping.append(value[0]);
                 } else {
                     String[] path = postMapping.path();
-                    requestMapping.append(path[0]);
+                    if (path.length > 0) {
+                        requestMapping.append(path[0]);
+                    }
                 }
             } else {
                 GetMapping getMapping = method.getAnnotation(GetMapping.class);
@@ -198,7 +204,9 @@ public class ParameterRecord {
                         requestMapping.append(value[0]);
                     } else {
                         String[] path = getMapping.path();
-                        requestMapping.append(path[0]);
+                        if (path.length > 0) {
+                            requestMapping.append(path[0]);
+                        }
                     }
                 } else {
                     DeleteMapping deleteMapping = method.getAnnotation(DeleteMapping.class);
@@ -208,7 +216,9 @@ public class ParameterRecord {
                             requestMapping.append(value[0]);
                         } else {
                             String[] path = deleteMapping.path();
-                            requestMapping.append(path[0]);
+                            if (path.length > 0) {
+                                requestMapping.append(path[0]);
+                            }
                         }
                     } else {
                         PutMapping putMapping = method.getAnnotation(PutMapping.class);
@@ -218,7 +228,9 @@ public class ParameterRecord {
                                 requestMapping.append(value[0]);
                             } else {
                                 String[] path = putMapping.path();
-                                requestMapping.append(path[0]);
+                                if (path.length > 0) {
+                                    requestMapping.append(path[0]);
+                                }
                             }
                         }
                     }
