@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -38,8 +39,13 @@ public class I18nMessage {
 
 
     public static String getMessage(String code) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return getMessage(request, code);
+        final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+        if (requestAttributes != null) {
+            HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+            return getMessage(request, code);
+        } else {
+            return getMessage(null, code);
+        }
     }
 
     /**
@@ -51,17 +57,22 @@ public class I18nMessage {
         if (messageSource == null) {
             messageSource = initMessageSource();
         }
+        Locale locale = Locale.CHINA;
+        if (request != null) {
+            String language = request.getHeader("language");
+            if (language == null) {
+                language = request.getHeader("Content-Language");
+            }
 
-        String language = request.getHeader("language");
-        if (language == null) {
-            language = request.getHeader("Content-Language");
+            if ("en".equalsIgnoreCase(language)) {
+                locale = Locale.ENGLISH;
+            } else if ("zh".equalsIgnoreCase(language)) {
+                locale = Locale.CHINA;
+            } else {
+                locale = request.getLocale() != null ? request.getLocale() : Locale.CHINA;
+            }
         }
-        Locale locale = request.getLocale();
-        if ("en".equals(language)) {
-            locale = Locale.ENGLISH;
-        } else if ("zh".equals(language)) {
-            locale = Locale.CHINA;
-        }
+
 
         String result = null;
         try {
@@ -69,9 +80,7 @@ public class I18nMessage {
         } catch (NoSuchMessageException e) {
             LOGGER.error("Cannot find the error message of internationalization, return the original error message.");
         }
-        if (result == null) {
-            return code;
-        }
+
         return result;
     }
 }

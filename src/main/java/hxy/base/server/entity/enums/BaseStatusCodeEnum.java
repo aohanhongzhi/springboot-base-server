@@ -42,7 +42,10 @@ public enum BaseStatusCodeEnum implements BaseEnum<String, String> {
 
     @Override
     public String description() {
-        return I18nMessage.getMessage(SUCCESS.name());
-//        return this.description;
+        String message = I18nMessage.getMessage(this.name());
+        if (message == null) {
+            message = this.description;
+        }
+        return message;
     }
 }
