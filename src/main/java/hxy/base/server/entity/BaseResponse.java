@@ -1,7 +1,6 @@
 package hxy.base.server.entity;
 
 
-
 import hxy.base.server.entity.enums.BaseStatusCodeEnum;
 import hxy.base.server.util.I18nMessage;
 
@@ -14,6 +13,11 @@ import java.io.Serializable;
  * @date 2021/10/12
  */
 public class BaseResponse<T> implements Serializable {
+
+    private static final String CODE_SUCCESS = "200";
+    private static final String CODE_ERROR = "500";
+
+
     private String code;
     private String message;
     private T data;
@@ -40,6 +44,9 @@ public class BaseResponse<T> implements Serializable {
         this.data = data;
     }
 
+    public static <T> BaseResponse<T> info(boolean condition) {
+        return condition ? new BaseResponse<T>(CODE_SUCCESS, "success", null) : new BaseResponse<T>(CODE_ERROR, "fail", null);
+    }
 
     public static <T> BaseResponse<T> success() {
         return new BaseResponse<T>(BaseStatusCodeEnum.SUCCESS);
