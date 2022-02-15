@@ -1,2 +1,6 @@
 GET http://localhost:9090/api/system/info
 Accept-Language: zh
+
+###
+GET http://localhost:9090/api/exception/
+Accept-Language: zh

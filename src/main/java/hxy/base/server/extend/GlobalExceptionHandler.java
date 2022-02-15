@@ -25,6 +25,23 @@ public class GlobalExceptionHandler implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
+    /**
+     * 基础的业务异常处理
+     *
+     * @param request
+     * @param exception
+     * @return
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = BaseException.class)
+    public BaseResponse baseException(HttpServletRequest request, BaseException exception) {
+        // 这里的HttpStatus应该是400
+        String message = exception.getMessage();
+        log.warn("{} 参数校验错误 Exception Message: {},{}", request.getRequestURI(), message, getStackTraceByPackageName(exception, "hxy.base"));
+
+        return BaseResponse.error(message);
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public BaseResponse clientException(HttpServletRequest request, MethodArgumentNotValidException exception) {
@@ -35,6 +52,14 @@ public class GlobalExceptionHandler implements InitializingBean {
         return BaseResponse.error(message);
     }
 
+
+    /**
+     * 内部系统错误的异常处理
+     *
+     * @param request
+     * @param exception
+     * @return
+     */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = Exception.class)
     public BaseResponse exceptionHandler(HttpServletRequest request, Exception exception) {
@@ -46,8 +71,8 @@ public class GlobalExceptionHandler implements InitializingBean {
         } else if (exception instanceof ValidationException) {
             errorLevel = false;
             message = "参数检验出错啦！";
-        } else if (exception instanceof BaseException) {
-            message = "业务处理发生错误";
+        } else if (exception instanceof RuntimeException) {
+            message = "运行时异常";
         }
         if (errorLevel) {
             log.error("{} Exception Message: {}", request.getRequestURI(), message, exception);
@@ -56,6 +81,25 @@ public class GlobalExceptionHandler implements InitializingBean {
         }
 
         return BaseResponse.error(message, exception.getMessage());
+    }
+
+
+    /**
+     * 只打印自己包里面的业务堆栈信息
+     *
+     * @param e
+     * @param packagePrefix 包名前缀
+     * @return
+     */
+    public String getStackTraceByPackageName(Throwable e, String packagePrefix) {
+        StringBuffer s = new StringBuffer("\n").append(e);
+        for (StackTraceElement traceElement : e.getStackTrace()) {
+            if (!traceElement.getClassName().startsWith(packagePrefix)) {
+                continue;
+            }
+            s.append("\n\tat ").append(traceElement);
+        }
+        return s.toString();
     }
 
     @Override
