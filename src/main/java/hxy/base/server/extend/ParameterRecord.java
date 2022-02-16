@@ -2,6 +2,7 @@ package hxy.base.server.extend;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hxy.base.server.util.IPAddress;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -43,27 +44,29 @@ public class ParameterRecord {
 
     private static final Logger log = LoggerFactory.getLogger("parameter");
 
-
-    private final int dataLength = 100;
+    private final int timeLength = 150;
+    private final int dataLength = 250;
     private final int paramLength = 1000;
 
-    String[] ignoreUrl = new String[]{"open"};
+    String[] ignoreUrl = new String[]{"actuator"};
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     @Around("execution(* hxy.base.*.controller.*.*(..))")
     public Object processTx(ProceedingJoinPoint jp) throws Throwable {
-        String ip = null, url = null, targetMethod = null, params = null, resultJson = null, requestMethod = null;
+        String ip = null, url = null, requestURI = null, targetMethod = null, params = null, resultJson = null, requestMethod = null, ipAddr = null;
         long timeConsuming = 0;
         long start = System.currentTimeMillis();
+
         try {
             ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             if (requestAttributes == null) {
                 return null;
             }
             HttpServletRequest request = requestAttributes.getRequest();
+            ipAddr = IPAddress.getIpAddr(request);
             requestMethod = request.getMethod();
-            final String requestURI = request.getRequestURI();
+            requestURI = request.getRequestURI();
             final StringBuffer requestURL = request.getRequestURL();
 
             final Signature signature1 = jp.getSignature();
@@ -74,9 +77,6 @@ public class ParameterRecord {
                 //拼接请求的接口名 end
                 url = getUrl(targetClass, method);
 
-                if (!requestURI.equals(url)) {
-                    log.warn("url[{}]与requestURI[{}]不相等", url, requestURI);
-                }
                 String name = signature.getName();
 
                 //接口对应的方法名
@@ -110,9 +110,10 @@ public class ParameterRecord {
                 }
             } else {
                 params = objectMapper.writeValueAsString(parameterMap);
-                if (params.length() > paramLength) {
-                    params = params.substring(0, paramLength) + "....eg....";
-                }
+//                参数记录的目的就是为了数据恢复，所以这里无论多大的参数都要记录下来！
+//                if (params.length() > paramLength) {
+//                    params = params.substring(0, paramLength) + "....eg....";
+//                }
             }
 
             ip = request.getRemoteHost();
@@ -139,10 +140,10 @@ public class ParameterRecord {
                     }
                     if (url != null && !contains) {
 
-                        if (timeConsuming > dataLength) {
-                            log.warn("\n\n\n====> visitor host ip :{}\n====> url:{} \n====>method:{}\n====>parameter:{}\n====>response:{}\n====>耗时:{}ms", ip, requestMethod + " " + url, targetMethod, params, resultJson, timeConsuming);
+                        if (timeConsuming > timeLength) {
+                            log.warn("\n\n====> visitor host ip :{}\n====> url : {}  uri : {} \n====>method:{}\n====>parameter:{}\n====>response:{}\n====>耗时较长:{}ms", ipAddr + " 代理：" + ip, requestMethod + " " + url, requestURI, targetMethod, params, resultJson, timeConsuming);
                         } else {
-                            log.info("\n\n\n====> visitor host ip :{}\n====> url:{} \n====>method:{}\n====>parameter:{}\n====>response:{}\n====>耗时:{}ms", ip, requestMethod + " " + url, targetMethod, params, resultJson, timeConsuming);
+                            log.info("\n\n====> visitor host ip :{}\n====> url : {}  uri : {} \n====>method:{}\n====>parameter:{}\n====>response:{}\n====>耗时:{}ms", ipAddr + " 代理：" + ip, requestMethod + " " + url, requestURI, targetMethod, params, resultJson, timeConsuming);
                         }
                     }
                     return result;
@@ -153,7 +154,7 @@ public class ParameterRecord {
         } catch (Throwable throwable) {
 //            这里会捕获Controller里面的业务异常直接返回
             timeConsuming = System.currentTimeMillis() - start;
-            log.info("\n\n====> visitor host ip : {}\n====> url : {} \n====> method : {}\n====> parameter : {}\n====> exception : {}\n====> 耗时 : {}ms", ip, requestMethod + " " + url, targetMethod, params, throwable.getMessage(), timeConsuming);
+            log.info("\n\n====> visitor host ip : {}\n====> url : {}  uri : {} \n====> method : {}\n====> parameter : {}\n====> exception : {}\n====> 耗时 : {}ms", ipAddr + " 代理：" + ip, requestMethod + " " + url, requestURI, targetMethod, params, throwable.getMessage(), timeConsuming);
             // 异常继续抛出，交由全局异常捕获再处理
             throw throwable;
         }
