@@ -1,6 +1,7 @@
 SpringBoot开发骨架项目
 ===
-本项目的目的是最小化集成各种必须组件和通用配置，可以作为任何项目开发的骨架。
+
+本项目的目的是最小化集成各种必须组件和通用配置，可以作为任何生产项目开发的骨架。至于先行的试验功能可以在 https://gitee.com/eric-tutorial/SpringCloud-multiple-gradle
 
 # 组件
 
@@ -56,6 +57,8 @@ setsid java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -jar /home/ubuntu/eric
 # 开发
 
 ## 单元测试
+
+符合AIR原则。
 
 所有需要测试的层次，需要按照`增加`，`修改`，`查询`，`删除`顺序来操作。保证每一种操作都能预期断言成立。
 也保证最后数据与测试之前没有区别。每次发布线上新系统的时候，就先经过一遍单元测试。
