@@ -104,7 +104,7 @@
     </appender>
 
 
-    <!--    这里的level并没有生效，原因是被覆盖了 https://www.cnblogs.com/goodAndyxublog/p/14827543.html -->
+    <!--    这里的level并没有生效，原因是被覆盖了。如果yaml等配置文件里没有申明，那么这里就是有效的 https://www.cnblogs.com/goodAndyxublog/p/14827543.html -->
     <root level="info">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="DINGTALK"/>
