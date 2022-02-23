@@ -26,19 +26,22 @@ public class LogbackDingTalkAppender extends UnsynchronizedAppenderBase<ILogging
 
     private static final Logger log = LoggerFactory.getLogger(LogbackDingTalkAppender.class);
     private HTTP http = HTTP.builder()
-            .baseUrl("http://easyprint.vip:9090/")
-            .addMsgConvertor(new JacksonMsgConvertor())
-            .build();
+        .baseUrl("http://easyprint.vip:9090/")
+        .addMsgConvertor(new JacksonMsgConvertor())
+        .build();
 
     @Retryable(value = Exception.class, maxAttempts = 4, backoff = @Backoff(delay = 100, maxDelay = 500))
     @Override
     protected void append(ILoggingEvent eventObject) {
         String activeProfile = EnvironmentUtil.getActiveProfile();
-        if (StringUtils.hasText(activeProfile) && (activeProfile.contains("dev") || activeProfile.contains("test"))) {
-            log.debug("\n====>当前是本地测试环境，错误信息不通知钉钉");
+        Level level = eventObject.getLevel();
+
+        if (activeProfile == null || activeProfile.contains("dev") || activeProfile.contains("test")) {
+            if (level.toInt() == Level.ERROR_INT) {
+                log.debug("\n====>当前是本地测试环境，错误信息不通知钉钉");
+            }
             return;
         }
-        Level level = eventObject.getLevel();
         switch (level.toInt()) {
             case Level.ERROR_INT:
                 // 发送到钉钉
