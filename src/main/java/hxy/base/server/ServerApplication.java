@@ -10,7 +10,7 @@ public class ServerApplication {
     private static final Logger log = LoggerFactory.getLogger(ServerApplication.class);
 
     public static void main(String[] args) {
-        log.info("\n<============ \uD83D\uDE80  JAVA版本:{}  \uD83D\uDE80 ============>", System.getProperty("java.version"));
+        log.info("\n<============ \uD83D\uDE80  JAVA版本:{}  CPU核心数:{}  \uD83D\uDE80 ============>", System.getProperty("java.version"), Runtime.getRuntime().availableProcessors());
         SpringApplication.run(ServerApplication.class, args);
         shutdownHook();
     }
