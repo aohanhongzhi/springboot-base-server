@@ -45,13 +45,13 @@ ps -ef|grep 'java'|grep 'server'|grep 'base-server'|grep -v 'grep'|awk '{print $
 ## 后台挂着启动运行
 
 ```shell script
-nohup java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -jar /home/ubuntu/eric/print/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
+nohup java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08  -jar /home/ubuntu/eric/base/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod -Xmx1G -Xms512M -server -XX:+UseG1GC -XX:+HeapDumpOnOutOfMemoryError  >> nohup.log 2>&1 &
 ```
 
 或者`setsid`
 
 ```shell script
-setsid java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -jar /home/ubuntu/eric/print/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
+setsid java  -Dfile.encoding=utf-8 -Duser.timezone=GMT+08 -XX:+HeapDumpOnOutOfMemoryError -jar /home/ubuntu/eric/base/server-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod  > nohup.log 2>&1 &
 ```
 
 # 开发
