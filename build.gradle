@@ -52,7 +52,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
-    implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.1'
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.5.2'
     runtimeOnly 'mysql:mysql-connector-java'
 
     implementation 'com.ejlchina:okhttps-jackson:3.5.0'
