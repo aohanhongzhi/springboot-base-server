@@ -5,10 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hxy.base.server.ServerApplicationTests;
 import hxy.base.server.entity.UserEntity;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 
 public class SensitiveJacksonTest extends ServerApplicationTests {
+
+    private static final Logger log = LoggerFactory.getLogger(SensitiveJacksonTest.class);
 
 
     @Resource
@@ -26,6 +30,6 @@ public class SensitiveJacksonTest extends ServerApplicationTests {
 
         //通过jackson方式，将对象序列化成json字符串
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(objectMapper.writeValueAsString(userEntity));
+        log.info(objectMapper.writeValueAsString(userEntity));
     }
 }

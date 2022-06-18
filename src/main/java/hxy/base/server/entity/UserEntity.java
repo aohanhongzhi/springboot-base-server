@@ -37,4 +37,20 @@ public class UserEntity {
      * 性别
      */
     private int age;
+
+    /**
+     * 在jdk的序列化规则里 static和transient 应该不会被序列化
+     */
+    public static String staticName = "这个应该不会被序列化";
+
+    // Jackson默认序列化 public的属性和getter方法
+    public String getStaticName() {
+        return staticName;
+    }
+
+    //  经过测试Set并不会影响序列化
+    public void setStaticName(String staticName) {
+        staticName = staticName;
+    }
+
 }
